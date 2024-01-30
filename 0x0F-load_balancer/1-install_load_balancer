@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# installing haproxy for ubuntu 16
+apt-get install --no-install-recommends software-properties-common
+add-apt-repository ppa:vbernat/haproxy-2.0
+apt-get install haproxy=2.0.\*
+
+# edit config file
+server_config=\
+"
+frontend  belem_frontend
+        bind *:80
+        mode http
+        default_backend belem_backend
+backend belem_backend
+        balance roundrobin
+        server 67272-web-01 54.87.234.179 check port 80
+        server 67272-web-02 54.236.26.251 check port 80
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# enable haproxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# Testing the HAproxy configuration file
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Restart the Nginx service
+sudo service haproxy restart
