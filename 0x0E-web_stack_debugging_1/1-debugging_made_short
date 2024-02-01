@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-# configure nginx to listen on port 80
-
-# configure nginx to listen on port 80 for all active IPV4 Ips
+# configure nginx to listen on port 80 with less lines
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-# restart nginx
 service nginx restart
-# terminate the first nginx process
 kill "$(pgrep 'nginx' | head -1)"
