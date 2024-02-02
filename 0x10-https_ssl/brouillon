@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# displays information about subdomains.
+
+# function to retrieve and display information about a domain
+domain_information () {
+	# perform a dns lookup for the subdomain under specified domain
+	line=$(dig "$2" "$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+	# extract relevant information and print it
+	echo "$2 $line" | awk '{ print "The subdomain " $1 " is a " $2 " record and points to " $3}'
+}
+
+# check the number of argument pass to the script
+if [ "$#" == 1 ]
+then
+	# if there is only one argument.
+	# call the domain_information fc with predefined subdomain names
+	domain_information "$1" "www"
+	domain_information "$1" "lb-01"
+	domain_information "$1" "web-01"
+	domain_information "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+	# if there are two argument call the domain_information fc with the provided sub-domain
+	domain_information "$1" "$2"
+fi
