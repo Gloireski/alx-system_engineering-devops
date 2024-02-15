@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# tells about user passed in parameter
+
+sudo -u $1 whoami;
