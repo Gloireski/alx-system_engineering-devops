@@ -21,7 +21,7 @@ if __name__ == "__main__":
     empInfo = s.get(infUrl)
 
     tasks = empTasks.json()
-    name = empInfo.json()['name']
+    name = empInfo.json()['username']
 
     filename = idEmp+'.csv'
 
